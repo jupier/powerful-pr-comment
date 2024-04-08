@@ -9,10 +9,12 @@ branding:
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  GITHUB_TOKEN:
+    description: 'GITHUB TOKEN'
     required: true
-    default: '1000'
+  body:
+    description: 'body'
+    required: true
 
 # Define your outputs here.
 outputs:
