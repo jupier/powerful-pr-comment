@@ -11,7 +11,7 @@ export async function run(): Promise<void> {
     core.debug(`Hello from powerful comment!`)
     const context = github.context
     const githubToken = core.getInput('GITHUB_TOKEN', { required: true })
-    const body = core.getMultilineInput('body', { required: true })
+    const body = core.getInput('body', { required: true })
     const octokit = github.getOctokit(githubToken)
     const pullRequestNumber = context.payload.pull_request?.number
 
@@ -22,7 +22,7 @@ export async function run(): Promise<void> {
     octokit.rest.issues.createComment({
       ...context.repo,
       issue_number: pullRequestNumber,
-      body: body.join('\\')
+      body
     })
 
     // Set outputs for other workflow steps to use
