@@ -29027,7 +29027,7 @@ async function run() {
         octokit.rest.issues.createComment({
             ...context.repo,
             issue_number: pullRequestNumber,
-            body: body.join('  ')
+            body: body.join('\\')
         });
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
