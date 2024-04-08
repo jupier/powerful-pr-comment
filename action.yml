@@ -12,6 +12,9 @@ inputs:
   GITHUB_TOKEN:
     description: 'GITHUB TOKEN'
     required: true
+  body:
+    description: 'body'
+    required: true
 
 # Define your outputs here.
 outputs:

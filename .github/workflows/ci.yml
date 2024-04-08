@@ -59,3 +59,8 @@ jobs:
         uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          body: |
+            Hello from ci workflow
+            Second line
+            Third line
+            **Text in bold**
