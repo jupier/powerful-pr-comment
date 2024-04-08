@@ -1,6 +1,5 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { Octokit } from '@octokit/rest'
 
 /**
  * The main function for the action.
@@ -11,21 +10,19 @@ export async function run(): Promise<void> {
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
     core.debug(`Hello from powerful comment!`)
     const context = github.context
+    const githubToken = core.getInput('GITHUB_TOKEN', { required: true })
+    const octokit = github.getOctokit(githubToken)
     const pullRequestNumber = context.payload.pull_request?.number
 
     if (!pullRequestNumber) {
       throw new Error('Pull request number cannot be blank')
     }
 
-    const octokit = new Octokit()
     octokit.rest.issues.createComment({
       ...context.repo,
       issue_number: pullRequestNumber,
       body: 'Hello there'
     })
-
-    const param: string = core.getInput('testParameter')
-    if (param !== 'Hello') throw new Error('Bad parameter')
 
     // Set outputs for other workflow steps to use
     core.setOutput('time', new Date().toTimeString())

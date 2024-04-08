@@ -9,8 +9,8 @@ branding:
 
 # Define your inputs here.
 inputs:
-  testParameter:
-    description: 'Your input description here'
+  GITHUB_TOKEN:
+    description: 'GITHUB TOKEN'
     required: true
 
 # Define your outputs here.

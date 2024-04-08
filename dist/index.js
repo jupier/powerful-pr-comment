@@ -3284,66 +3284,6 @@ paginateRest.VERSION = VERSION;
 
 /***/ }),
 
-/***/ 8883:
-/***/ ((module) => {
-
-"use strict";
-
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// pkg/dist-src/index.js
-var dist_src_exports = {};
-__export(dist_src_exports, {
-  requestLog: () => requestLog
-});
-module.exports = __toCommonJS(dist_src_exports);
-
-// pkg/dist-src/version.js
-var VERSION = "4.0.1";
-
-// pkg/dist-src/index.js
-function requestLog(octokit) {
-  octokit.hook.wrap("request", (request, options) => {
-    octokit.log.debug("request", options);
-    const start = Date.now();
-    const requestOptions = octokit.request.endpoint.parse(options);
-    const path = requestOptions.url.replace(options.baseUrl, "");
-    return request(options).then((response) => {
-      octokit.log.info(
-        `${requestOptions.method} ${path} - ${response.status} in ${Date.now() - start}ms`
-      );
-      return response;
-    }).catch((error) => {
-      octokit.log.info(
-        `${requestOptions.method} ${path} - ${error.status} in ${Date.now() - start}ms`
-      );
-      throw error;
-    });
-  });
-}
-requestLog.VERSION = VERSION;
-// Annotate the CommonJS export names for ESM import in node:
-0 && (0);
-
-
-/***/ }),
-
 /***/ 3044:
 /***/ ((module) => {
 
@@ -5834,57 +5774,6 @@ var request = withDefaults(import_endpoint.endpoint, {
   headers: {
     "user-agent": `octokit-request.js/${VERSION} ${(0, import_universal_user_agent.getUserAgent)()}`
   }
-});
-// Annotate the CommonJS export names for ESM import in node:
-0 && (0);
-
-
-/***/ }),
-
-/***/ 5375:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
-
-"use strict";
-
-var __defProp = Object.defineProperty;
-var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
-var __getOwnPropNames = Object.getOwnPropertyNames;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: true });
-};
-var __copyProps = (to, from, except, desc) => {
-  if (from && typeof from === "object" || typeof from === "function") {
-    for (let key of __getOwnPropNames(from))
-      if (!__hasOwnProp.call(to, key) && key !== except)
-        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  }
-  return to;
-};
-var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
-
-// pkg/dist-src/index.js
-var dist_src_exports = {};
-__export(dist_src_exports, {
-  Octokit: () => Octokit
-});
-module.exports = __toCommonJS(dist_src_exports);
-var import_core = __nccwpck_require__(6762);
-var import_plugin_request_log = __nccwpck_require__(8883);
-var import_plugin_paginate_rest = __nccwpck_require__(4193);
-var import_plugin_rest_endpoint_methods = __nccwpck_require__(3044);
-
-// pkg/dist-src/version.js
-var VERSION = "20.1.0";
-
-// pkg/dist-src/index.js
-var Octokit = import_core.Octokit.plugin(
-  import_plugin_request_log.requestLog,
-  import_plugin_rest_endpoint_methods.legacyRestEndpointMethods,
-  import_plugin_paginate_rest.paginateRest
-).defaults({
-  userAgent: `octokit-rest.js/${VERSION}`
 });
 // Annotate the CommonJS export names for ESM import in node:
 0 && (0);
@@ -29119,7 +29008,6 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.run = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
-const rest_1 = __nccwpck_require__(5375);
 /**
  * The main function for the action.
  * @returns {Promise<void>} Resolves when the action is complete.
@@ -29129,19 +29017,17 @@ async function run() {
         // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
         core.debug(`Hello from powerful comment!`);
         const context = github.context;
+        const githubToken = core.getInput('GITHUB_TOKEN', { required: true });
+        const octokit = github.getOctokit(githubToken);
         const pullRequestNumber = context.payload.pull_request?.number;
         if (!pullRequestNumber) {
             throw new Error('Pull request number cannot be blank');
         }
-        const octokit = new rest_1.Octokit();
         octokit.rest.issues.createComment({
             ...context.repo,
             issue_number: pullRequestNumber,
             body: 'Hello there'
         });
-        const param = core.getInput('testParameter');
-        if (param !== 'Hello')
-            throw new Error('Bad parameter');
         // Set outputs for other workflow steps to use
         core.setOutput('time', new Date().toTimeString());
     }
