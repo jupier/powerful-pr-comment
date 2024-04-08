@@ -57,4 +57,4 @@ jobs:
         id: test-action
         uses: ./
         with:
-          testParameter: Hello
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
