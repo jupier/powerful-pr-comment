@@ -29024,13 +29024,14 @@ async function run() {
         if (!pullRequestNumber) {
             throw new Error('Pull request number cannot be blank');
         }
-        octokit.rest.issues.createComment({
+        const result = await octokit.rest.issues.createComment({
             ...context.repo,
             issue_number: pullRequestNumber,
             body
         });
+        const commentId = result.data.id;
         // Set outputs for other workflow steps to use
-        core.setOutput('time', new Date().toTimeString());
+        core.setOutput('commentId', commentId);
     }
     catch (error) {
         // Fail the workflow run if an error occurs
