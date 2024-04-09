@@ -64,3 +64,6 @@ jobs:
             Second line
             Third line
             **Text in bold**
+
+      - name: Display comment id
+        run: echo "Comment id is: ${{ steps.test-action.outputs.commentId }}"

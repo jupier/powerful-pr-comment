@@ -9,6 +9,7 @@ export async function run(): Promise<void> {
   try {
     // Debug logs are only output if the `ACTIONS_STEP_DEBUG` secret is true
     core.debug(`Hello from powerful comment!`)
+
     const context = github.context
     const githubToken = core.getInput('GITHUB_TOKEN', { required: true })
     const body = core.getInput('body', { required: true })
@@ -19,14 +20,13 @@ export async function run(): Promise<void> {
       throw new Error('Pull request number cannot be blank')
     }
 
-    octokit.rest.issues.createComment({
+    const result = await octokit.rest.issues.createComment({
       ...context.repo,
       issue_number: pullRequestNumber,
       body
     })
-
-    // Set outputs for other workflow steps to use
-    core.setOutput('time', new Date().toTimeString())
+    const commentId = result.data.id
+    core.setOutput('commentId', commentId)
   } catch (error) {
     // Fail the workflow run if an error occurs
     if (error instanceof Error) core.setFailed(error.message)

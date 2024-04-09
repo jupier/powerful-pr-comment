@@ -18,8 +18,8 @@ inputs:
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  commentId:
+    description: 'comment id'
 
 runs:
   using: node20
