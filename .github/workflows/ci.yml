@@ -65,3 +65,6 @@ jobs:
             Second line
             Third line
             **Text in bold**
+
+      - name: Display comment id
+        run: echo "Hello :) ${{steps.test-action.outputs.commentId}}"
