@@ -61,10 +61,22 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           body: |
+            **This comment will be updated**
+
+      - name: Display comment id
+        run: echo "Hello :) ${{steps.test-action.outputs.commentId}}"
+
+      - name: Sleep for 5s
+        run: sleep 5s
+        shell: bash
+
+      - name: Test Local Action
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commentId: ${{steps.test-action.outputs.commentId}}
+          body: |
             Hello from ci workflow
             Second line
             Third line
             **Text in bold**
-
-      - name: Display comment id
-        run: echo "Hello :) ${{steps.test-action.outputs.commentId}}"
