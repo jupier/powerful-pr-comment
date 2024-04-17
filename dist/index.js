@@ -29019,13 +29019,33 @@ async function run() {
         const context = github.context;
         const githubToken = core.getInput('GITHUB_TOKEN', { required: true });
         const commentIdToUpdate = core.getInput('commentId');
+        const isSticky = core.getBooleanInput('sticky');
         const body = core.getInput('body', { required: true });
         const octokit = github.getOctokit(githubToken);
         const pullRequestNumber = context.payload.pull_request?.number;
         if (!pullRequestNumber) {
             throw new Error('Pull request number cannot be blank');
         }
-        if (commentIdToUpdate.length > 0) {
+        if (isSticky) {
+            const comments = await octokit.rest.issues.listComments({
+                ...context.repo,
+                issue_number: pullRequestNumber
+            });
+            core.info('Comment already posted in the PR');
+            comments.data.forEach(com => {
+                if (com.body) {
+                    core.info(com.body);
+                }
+            });
+            const result = await octokit.rest.issues.createComment({
+                ...context.repo,
+                issue_number: pullRequestNumber,
+                body: `<---POWERFUL PR STICKY COMMENT--->${body}`
+            });
+            const commentId = result.data.id;
+            core.setOutput('commentId', commentId);
+        }
+        else if (commentIdToUpdate.length > 0) {
             const result = await octokit.rest.issues.updateComment({
                 ...context.repo,
                 comment_id: parseInt(commentIdToUpdate),

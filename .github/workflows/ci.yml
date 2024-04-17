@@ -80,3 +80,23 @@ jobs:
             Second line
             Third line
             **Text in bold**
+
+      - name: Test sticky comment (1)
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          sticky: true
+          body: |
+            I'm a sticky comment ! (First test)
+
+      - name: Sleep for 5s
+        run: sleep 5s
+        shell: bash
+
+      - name: Test sticky comment (2)
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          sticky: true
+          body: |
+            I'm a sticky comment ! (Second test)
