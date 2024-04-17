@@ -29037,7 +29037,7 @@ async function run() {
             body
         });
         if (isSticky) {
-            const stickyCommentHeader = '<!---POWERFUL PR STICKY COMMENT--->';
+            const stickyCommentHeader = '<!-- POWERFUL PR STICKY COMMENT -->';
             const comments = await octokit.rest.issues.listComments({
                 ...context.repo,
                 issue_number: pullRequestNumber
