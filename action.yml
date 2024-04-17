@@ -15,6 +15,9 @@ inputs:
   body:
     description: 'body'
     required: true
+  sticky:
+    description: 'Is the comment sticky?'
+    default: 'false'
   commentId:
     description: 'Comment id to update'
     default: ''
