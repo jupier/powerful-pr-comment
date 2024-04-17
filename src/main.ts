@@ -33,7 +33,7 @@ export async function run(): Promise<void> {
       octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullRequestNumber,
-        body
+        body: commentBody
       })
 
     if (isSticky) {
