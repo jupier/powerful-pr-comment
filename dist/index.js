@@ -29034,7 +29034,7 @@ async function run() {
         const createComment = (commentBody) => octokit.rest.issues.createComment({
             ...context.repo,
             issue_number: pullRequestNumber,
-            body
+            body: commentBody
         });
         if (isSticky) {
             const stickyCommentHeader = '<!-- POWERFUL PR STICKY COMMENT -->';
