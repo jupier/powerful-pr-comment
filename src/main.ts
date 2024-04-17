@@ -1,5 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import { consumers } from 'stream'
 
 /**
  * The main function for the action.
@@ -21,39 +22,47 @@ export async function run(): Promise<void> {
       throw new Error('Pull request number cannot be blank')
     }
 
-    if (isSticky) {
-      const comments = await octokit.rest.issues.listComments({
+    const updateComment = (commentId: number, commentBody: string) =>
+      octokit.rest.issues.updateComment({
         ...context.repo,
-        issue_number: pullRequestNumber
+        comment_id: commentId,
+        body: commentBody
       })
-      core.info('Comment already posted in the PR')
-      comments.data.forEach(com => {
-        if (com.body) {
-          core.info(com.body)
-        }
-      })
-      const result = await octokit.rest.issues.createComment({
-        ...context.repo,
-        issue_number: pullRequestNumber,
-        body: `<---POWERFUL PR STICKY COMMENT--->${body}`
-      })
-      const commentId = result.data.id
-      core.setOutput('commentId', commentId)
-    } else if (commentIdToUpdate.length > 0) {
-      const result = await octokit.rest.issues.updateComment({
-        ...context.repo,
-        comment_id: parseInt(commentIdToUpdate),
-        body
-      })
-      const commentId = result.data.id
-      core.setOutput('commentId', commentId)
-    } else {
-      const result = await octokit.rest.issues.createComment({
+
+    const createComment = (commentBody: string) =>
+      octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullRequestNumber,
         body
       })
 
+    if (isSticky) {
+      const stickyCommentHeader = '<!---POWERFUL PR STICKY COMMENT--->'
+      const comments = await octokit.rest.issues.listComments({
+        ...context.repo,
+        issue_number: pullRequestNumber
+      })
+      const existingStickyComment = comments.data.find(comment => {
+        return comment.body && comment.body.startsWith(stickyCommentHeader)
+      })
+      if (existingStickyComment) {
+        core.info(`A sticky comment exists: ${existingStickyComment.body}`)
+        await updateComment(
+          existingStickyComment.id,
+          `${stickyCommentHeader}${body}`
+        )
+        core.setOutput('commentId', existingStickyComment.id)
+      } else {
+        core.info('Creating new sticky comment')
+        const result = await createComment(`${stickyCommentHeader}${body}`)
+        core.setOutput('commentId', result.data.id)
+      }
+    } else if (commentIdToUpdate.length > 0) {
+      const result = await updateComment(parseInt(commentIdToUpdate), body)
+      const commentId = result.data.id
+      core.setOutput('commentId', commentId)
+    } else {
+      const result = await createComment(body)
       const commentId = result.data.id
 
       // Set outputs for other workflow steps to use

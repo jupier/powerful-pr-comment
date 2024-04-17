@@ -29026,40 +29026,43 @@ async function run() {
         if (!pullRequestNumber) {
             throw new Error('Pull request number cannot be blank');
         }
+        const updateComment = (commentId, commentBody) => octokit.rest.issues.updateComment({
+            ...context.repo,
+            comment_id: commentId,
+            body: commentBody
+        });
+        const createComment = (commentBody) => octokit.rest.issues.createComment({
+            ...context.repo,
+            issue_number: pullRequestNumber,
+            body
+        });
         if (isSticky) {
+            const stickyCommentHeader = '<!---POWERFUL PR STICKY COMMENT--->';
             const comments = await octokit.rest.issues.listComments({
                 ...context.repo,
                 issue_number: pullRequestNumber
             });
-            core.info('Comment already posted in the PR');
-            comments.data.forEach(com => {
-                if (com.body) {
-                    core.info(com.body);
-                }
+            const existingStickyComment = comments.data.find(comment => {
+                return comment.body && comment.body.startsWith(stickyCommentHeader);
             });
-            const result = await octokit.rest.issues.createComment({
-                ...context.repo,
-                issue_number: pullRequestNumber,
-                body: `<---POWERFUL PR STICKY COMMENT--->${body}`
-            });
-            const commentId = result.data.id;
-            core.setOutput('commentId', commentId);
+            if (existingStickyComment) {
+                core.info(`A sticky comment exists: ${existingStickyComment.body}`);
+                await updateComment(existingStickyComment.id, `${stickyCommentHeader}${body}`);
+                core.setOutput('commentId', existingStickyComment.id);
+            }
+            else {
+                core.info('Creating new sticky comment');
+                const result = await createComment(`${stickyCommentHeader}${body}`);
+                core.setOutput('commentId', result.data.id);
+            }
         }
         else if (commentIdToUpdate.length > 0) {
-            const result = await octokit.rest.issues.updateComment({
-                ...context.repo,
-                comment_id: parseInt(commentIdToUpdate),
-                body
-            });
+            const result = await updateComment(parseInt(commentIdToUpdate), body);
             const commentId = result.data.id;
             core.setOutput('commentId', commentId);
         }
         else {
-            const result = await octokit.rest.issues.createComment({
-                ...context.repo,
-                issue_number: pullRequestNumber,
-                body
-            });
+            const result = await createComment(body);
             const commentId = result.data.id;
             // Set outputs for other workflow steps to use
             core.setOutput('commentId', commentId);
