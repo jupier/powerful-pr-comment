@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github'
-import { consumers } from 'stream'
+import { GetResponseTypeFromEndpointMethod } from '@octokit/types'
 
 /**
  * The main function for the action.
@@ -22,14 +22,26 @@ export async function run(): Promise<void> {
       throw new Error('Pull request number cannot be blank')
     }
 
-    const updateComment = (commentId: number, commentBody: string) =>
+    type CreateCommentResponseType = GetResponseTypeFromEndpointMethod<
+      typeof octokit.rest.issues.createComment
+    >
+    type UpdateCommentResponseType = GetResponseTypeFromEndpointMethod<
+      typeof octokit.rest.issues.updateComment
+    >
+
+    const updateComment = async (
+      commentId: number,
+      commentBody: string
+    ): Promise<UpdateCommentResponseType> =>
       octokit.rest.issues.updateComment({
         ...context.repo,
         comment_id: commentId,
         body: commentBody
       })
 
-    const createComment = (commentBody: string) =>
+    const createComment = async (
+      commentBody: string
+    ): Promise<CreateCommentResponseType> =>
       octokit.rest.issues.createComment({
         ...context.repo,
         issue_number: pullRequestNumber,
@@ -41,9 +53,6 @@ export async function run(): Promise<void> {
       const comments = await octokit.rest.issues.listComments({
         ...context.repo,
         issue_number: pullRequestNumber
-      })
-      comments.data.forEach(comment => {
-        core.info(`${comment.body} ${comment.body_html} ${comment.body_text}`)
       })
       const existingStickyComment = comments.data.find(comment => {
         return comment.body && comment.body.startsWith(stickyCommentHeader)

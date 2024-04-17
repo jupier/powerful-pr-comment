@@ -29026,12 +29026,12 @@ async function run() {
         if (!pullRequestNumber) {
             throw new Error('Pull request number cannot be blank');
         }
-        const updateComment = (commentId, commentBody) => octokit.rest.issues.updateComment({
+        const updateComment = async (commentId, commentBody) => octokit.rest.issues.updateComment({
             ...context.repo,
             comment_id: commentId,
             body: commentBody
         });
-        const createComment = (commentBody) => octokit.rest.issues.createComment({
+        const createComment = async (commentBody) => octokit.rest.issues.createComment({
             ...context.repo,
             issue_number: pullRequestNumber,
             body: commentBody
@@ -29041,9 +29041,6 @@ async function run() {
             const comments = await octokit.rest.issues.listComments({
                 ...context.repo,
                 issue_number: pullRequestNumber
-            });
-            comments.data.forEach(comment => {
-                core.info(`${comment.body} ${comment.body_html} ${comment.body_text}`);
             });
             const existingStickyComment = comments.data.find(comment => {
                 return comment.body && comment.body.startsWith(stickyCommentHeader);
