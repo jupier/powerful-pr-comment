@@ -29042,6 +29042,9 @@ async function run() {
                 ...context.repo,
                 issue_number: pullRequestNumber
             });
+            comments.data.forEach(comment => {
+                core.info(`${comment.body} ${comment.body_html} ${comment.body_text}`);
+            });
             const existingStickyComment = comments.data.find(comment => {
                 return comment.body && comment.body.startsWith(stickyCommentHeader);
             });
