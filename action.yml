@@ -21,6 +21,9 @@ inputs:
   commentId:
     description: 'Comment id to update'
     default: ''
+  section:
+    description: 'The section you want to update'
+    default: ''
 
 # Define your outputs here.
 outputs:
