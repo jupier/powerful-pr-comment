@@ -29020,17 +29020,46 @@ async function run() {
         const githubToken = core.getInput('GITHUB_TOKEN', { required: true });
         const commentIdToUpdate = core.getInput('commentId');
         const isSticky = core.getBooleanInput('sticky');
+        const section = core.getInput('section');
         const body = core.getInput('body', { required: true });
         const octokit = github.getOctokit(githubToken);
         const pullRequestNumber = context.payload.pull_request?.number;
         if (!pullRequestNumber) {
             throw new Error('Pull request number cannot be blank');
         }
-        const updateComment = async (commentId, commentBody) => octokit.rest.issues.updateComment({
-            ...context.repo,
-            comment_id: commentId,
-            body: commentBody
-        });
+        const updateComment = async (commentId, commentBody) => {
+            if (section.length === 0) {
+                return octokit.rest.issues.updateComment({
+                    ...context.repo,
+                    comment_id: commentId,
+                    body: commentBody
+                });
+            }
+            else {
+                const commentSectionStart = `<!-- POWERFUL PR SECTION START: ${section} -->`;
+                const commentSectionEnd = `<!-- POWERFUL PR SECTION END: ${section} -->`;
+                const comment = await octokit.rest.issues.getComment({
+                    ...context.repo,
+                    comment_id: commentId
+                });
+                const containsSection = comment.data.body &&
+                    comment.data.body.includes(commentSectionStart) &&
+                    comment.data.body.includes(commentSectionEnd);
+                if (containsSection && comment.data.body) {
+                    const bodyBeforeSection = comment.data.body.substring(0, comment.data.body.indexOf(commentSectionStart) +
+                        commentSectionStart.length);
+                    const bodyAfterSection = comment.data.body.substring(comment.data.body.indexOf(commentSectionEnd));
+                    return octokit.rest.issues.updateComment({
+                        ...context.repo,
+                        comment_id: commentId,
+                        body: `${bodyBeforeSection}${body}${bodyAfterSection}`
+                    });
+                }
+                else {
+                    throw new Error('Section new found :(');
+                }
+            }
+        };
         const createComment = async (commentBody) => octokit.rest.issues.createComment({
             ...context.repo,
             issue_number: pullRequestNumber,

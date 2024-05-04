@@ -55,7 +55,7 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
-      - name: Test Local Action
+      - name: Create standard comment
         id: test-action
         uses: ./
         with:
@@ -70,7 +70,7 @@ jobs:
         run: sleep 5s
         shell: bash
 
-      - name: Test Local Action
+      - name: Update standard comment and add section
         uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,23 +80,66 @@ jobs:
             Second line
             Third line
             **Text in bold**
-
-      - name: Test sticky comment (1)
-        uses: ./
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          sticky: true
-          body: |
-            I'm a sticky comment ! (First test)
+            # My section
+            <!-- POWERFUL PR SECTION START: firstSection -->
+            This section will be updated...
+            <!-- POWERFUL PR SECTION END: firstSection -->
 
       - name: Sleep for 5s
         run: sleep 5s
         shell: bash
 
-      - name: Test sticky comment (2)
+      - name: Update section in a standard comment
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          commentId: ${{steps.test-action.outputs.commentId}}
+          section: firstSection
+          body: |
+            Hi 👋
+            ![Screenshot of a comment on a GitHub issue showing an image, added in the Markdown, of an Octocat smiling and raising a tentacle.](https://myoctocat.com/assets/images/base-octocat.svg)
+
+      - name: Test sticky comment with sections
         uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           sticky: true
           body: |
-            I'm a sticky comment ! (Second test)
+            I'm a comment containing multiple sections.
+            Each section can be updated separately.
+            # First section
+            <!-- POWERFUL PR SECTION START: firstSection -->
+            This content will be updated...
+            <!-- POWERFUL PR SECTION END: firstSection -->
+            # Second section
+            <!-- POWERFUL PR SECTION START: secondSection -->
+            This content will be updated...
+            <!-- POWERFUL PR SECTION END: secondSection -->
+
+      - name: Sleep for 5s
+        run: sleep 5s
+        shell: bash
+
+      - name: Update sticky comment first section
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          section: firstSection
+          sticky: true
+          body: |
+            The content of the first section has been updated
+            **Well done**
+
+      - name: Sleep for 5s
+        run: sleep 5s
+        shell: bash
+
+      - name: Update sticky comment second section
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          section: secondSection
+          sticky: true
+          body: |
+            The content of the second section has been updated
+            **Really nice 🤗**
