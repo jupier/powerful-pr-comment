@@ -108,10 +108,14 @@ jobs:
           sticky: true
           body: |
             I'm a comment containing a section
-            Start section
+            # First section
             <!-- POWERFUL PR SECTION START: firstSection -->
             This content will be updated...
             <!-- POWERFUL PR SECTION END: firstSection -->
+            # Second section
+            <!-- POWERFUL PR SECTION START: secondSection -->
+            This content will be updated...
+            <!-- POWERFUL PR SECTION END: secondSection -->
 
       - name: Sleep for 5s
         run: sleep 5s
@@ -126,3 +130,17 @@ jobs:
           body: |
             The content of the first section has been updated
             **Well done**
+
+      - name: Sleep for 5s
+        run: sleep 5s
+        shell: bash
+
+      - name: Test comment with section 2
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          section: secondSection
+          sticky: true
+          body: |
+            The content of the second section has been updated
+            **Really nice 🤗**
