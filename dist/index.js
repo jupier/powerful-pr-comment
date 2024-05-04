@@ -29046,11 +29046,13 @@ async function run() {
                     comment.data.body.includes(commentSectionStart) &&
                     comment.data.body.includes(commentSectionEnd);
                 if (containsSection && comment.data.body) {
-                    const newBody = comment.data.body.substring(0, comment.data.body.indexOf(commentSectionStart));
+                    const bodyBeforeSection = comment.data.body.substring(0, comment.data.body.indexOf(commentSectionStart) +
+                        commentSectionStart.length);
+                    const bodyAfterSection = comment.data.body.substring(comment.data.body.indexOf(commentSectionEnd));
                     return octokit.rest.issues.updateComment({
                         ...context.repo,
                         comment_id: commentId,
-                        body: newBody
+                        body: `${bodyBeforeSection}${body}${bodyAfterSection}`
                     });
                 }
                 else {
