@@ -1,10 +1,13 @@
+# Powerful PR comment
+
 [![GitHub Super-Linter](https://github.com/jupier/powerful-pr-comment/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/jupier/powerful-pr-comment/actions/workflows/ci.yml/badge.svg)
 [![Check dist/](https://github.com/jupier/powerful-pr-comment/actions/workflows/check-dist.yml/badge.svg)](https://github.com/jupier/powerful-pr-comment/actions/workflows/check-dist.yml)
 [![CodeQL](https://github.com/jupier/powerful-pr-comment/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jupier/powerful-pr-comment/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
-Action created using https://github.com/actions/typescript-action
+Action created using
+[typescript-action](https://github.com/actions/typescript-action)
 
 ## Setup
 
