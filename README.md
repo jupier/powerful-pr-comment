@@ -15,7 +15,8 @@ create/update pull request comments. It provides useful features such as:
 - **creating sticky comments**: a comment that is created only the first time
   and then then updated for the next runs
 - **creating comments with updatable sections**
-- ... more to come (appending content instead of replacing, deleting a comment...)
+- ... more to come (appending content instead of replacing, deleting a
+  comment...)
 
 ## Usage
 
@@ -38,7 +39,8 @@ permissions:
     body: |
       # The content of this comment will be overwritten
 
----
+# ...
+
 - uses: jupier/powerful-pr-comment@v0.0.3
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -79,7 +81,8 @@ permissions:
       This content can be updated...
       <!-- POWERFUL PR SECTION END: secondSection -->
 
----
+# ...
+
 - uses: jupier/powerful-pr-comment@v0.0.3
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -92,7 +95,7 @@ permissions:
 
 ### Other examples
 
-Find other example in our [CI workflow](./.github/workflows/ci.yml)
+Find more examples in our [CI workflow](./.github/workflows/ci.yml)
 
 ## Setup
 
