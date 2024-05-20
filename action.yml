@@ -1,6 +1,8 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Powerful pull request Comment'
+description:
+  'Easily create and update PR comments. Comments can be sticky, split into
+  sections, and more...'
+author: 'Julien P.'
 
 # Add your action's branding here. This will appear on the GitHub Marketplace.
 branding:
