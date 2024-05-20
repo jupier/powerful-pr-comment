@@ -14,8 +14,8 @@ create/update pull request comments. It provides useful features such as:
 
 - **creating sticky comments**: a comment that is created only the first time
   and then then updated for the next runs
-- **comments with updatable sections**
-- ... more to come
+- **creating comments with updatable sections**
+- ... more to come (appending content instead of replacing, deleting a comment...)
 
 ## Usage
 
