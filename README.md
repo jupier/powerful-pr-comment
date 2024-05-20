@@ -9,7 +9,7 @@
 ## Summary
 
 Powerful Pull Request Comment is
-[a Github Action](https://github.com/features/actions) that allows you to easily
+[a GitHub Action](https://github.com/features/actions) that allows you to easily
 create/update pull request comments. It provides useful features such as:
 
 - **creating sticky comments**: a comment that is created only the first time
@@ -59,7 +59,8 @@ permissions:
     sticky: true
     body: |
       # This comment is sticky
-      This means it's created the first time and then updated for the subsequent runs.
+      This means it's created the first time 
+      and then updated for the subsequent runs.
 ```
 
 ### Create and update a comment with sections
