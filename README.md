@@ -6,12 +6,15 @@
 [![CodeQL](https://github.com/jupier/powerful-pr-comment/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jupier/powerful-pr-comment/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
-Powerful Pull Request Comment is a Github Action that allows you to easily
+## Summary
+
+Powerful Pull Request Comment is
+[a Github Action](https://github.com/features/actions) that allows you to easily
 create/update pull request comments. It provides useful features such as:
 
-- creating sticky comments: a comment that is created only the first time and
-  then then updated for the next runs
-- comments with updatable sections
+- **creating sticky comments**: a comment that is created only the first time
+  and then then updated for the next runs
+- **comments with updatable sections**
 - ... more to come
 
 ## Usage
@@ -33,7 +36,7 @@ permissions:
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     body: |
-      # The content of this comment will be override
+      # The content of this comment will be overwritten
 
 ---
 - uses: jupier/powerful-pr-comment@v0.0.3
@@ -73,7 +76,7 @@ permissions:
       <!-- POWERFUL PR SECTION END: firstSection -->
       # Second section
       <!-- POWERFUL PR SECTION START: secondSection -->
-      This content will be updated...
+      This content can be updated...
       <!-- POWERFUL PR SECTION END: secondSection -->
 
 ---
@@ -84,7 +87,7 @@ permissions:
     sticky: true
     body: |
       The content of the first section has been updated
-      **Well done**
+      **Well done 🤗**
 ```
 
 ### Other examples
