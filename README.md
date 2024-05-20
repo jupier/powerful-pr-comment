@@ -1,4 +1,4 @@
-# Powerful PR comment
+# Powerful pull request comment
 
 [![GitHub Super-Linter](https://github.com/jupier/powerful-pr-comment/actions/workflows/linter.yml/badge.svg)](https://github.com/super-linter/super-linter)
 ![CI](https://github.com/jupier/powerful-pr-comment/actions/workflows/ci.yml/badge.svg)
@@ -6,10 +6,102 @@
 [![CodeQL](https://github.com/jupier/powerful-pr-comment/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jupier/powerful-pr-comment/actions/workflows/codeql-analysis.yml)
 [![Coverage](./badges/coverage.svg)](./badges/coverage.svg)
 
-Action created using
-[typescript-action](https://github.com/actions/typescript-action)
+## Summary
+
+Powerful Pull Request Comment is
+[a GitHub Action](https://github.com/features/actions) that allows you to easily
+create/update pull request comments. It provides useful features such as:
+
+- **creating sticky comments**: a comment that is created only the first time
+  and then then updated for the next runs
+- **creating comments with updatable sections**
+- ... more to come (appending content instead of replacing, deleting a
+  comment...)
+
+## Usage
+
+### Prerequisites
+
+You need to add this permission
+
+```yaml
+permissions:
+  pull-requests: write
+```
+
+### Create and update a pr comment
+
+```yaml
+- uses: jupier/powerful-pr-comment@v0.0.3
+  id: comment-created
+  with:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    body: |
+      # The content of this comment will be overwritten
+
+# ...
+
+- uses: jupier/powerful-pr-comment@v0.0.3
+  with:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    commentId: ${{steps.test-action.outputs.commentId}}
+    body: |
+      # Hello world
+      **Text in bold**
+```
+
+### Create/update a sticky comment
+
+```yaml
+- uses: jupier/powerful-pr-comment@v0.0.3
+  with:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    sticky: true
+    body: |
+      # This comment is sticky
+      This means it's created the first time 
+      and then updated for the subsequent runs.
+```
+
+### Create and update a comment with sections
+
+```yaml
+- uses: jupier/powerful-pr-comment@v0.0.3
+  with:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    sticky: true
+    body: |
+      I'm a comment containing multiple sections.
+      Each section can be updated separately.
+      # First section
+      <!-- POWERFUL PR SECTION START: firstSection -->
+      This content will be updated...
+      <!-- POWERFUL PR SECTION END: firstSection -->
+      # Second section
+      <!-- POWERFUL PR SECTION START: secondSection -->
+      This content can be updated...
+      <!-- POWERFUL PR SECTION END: secondSection -->
+
+# ...
+
+- uses: jupier/powerful-pr-comment@v0.0.3
+  with:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    section: firstSection
+    sticky: true
+    body: |
+      The content of the first section has been updated
+      **Well done 🤗**
+```
+
+### Other examples
+
+Find more examples in our [CI workflow](./.github/workflows/ci.yml)
 
 ## Setup
+
+Action created using
+[typescript-action](https://github.com/actions/typescript-action).
 
 After you've cloned the repository to your local machine or codespace, you'll
 need to perform some initial setup steps before you can develop your action.

@@ -1,13 +1,13 @@
-name: 'Powerful pull request comments'
+name: 'Powerful pull request comment'
 description:
   'Easily create and update PR comments. Comments can be sticky, split into
   sections, and more...'
 author: 'Julien P.'
 
-# Add your action's branding here. This will appear on the GitHub Marketplace.
+# https://docs.github.com/en/actions/creating-actions/metadata-syntax-for-github-actions#branding
 branding:
-  icon: 'heart'
-  color: 'red'
+  icon: 'message-square'
+  color: 'purple'
 
 # Define your inputs here.
 inputs:
@@ -15,22 +15,22 @@ inputs:
     description: 'GITHUB TOKEN'
     required: true
   body:
-    description: 'body'
+    description: "The comment's body or the section's body"
     required: true
   sticky:
     description: 'Is the comment sticky?'
     default: 'false'
   commentId:
-    description: 'Comment id to update'
+    description: "Comment's id to update"
     default: ''
   section:
-    description: 'The section you want to update'
+    description: "The section's name to update"
     default: ''
 
 # Define your outputs here.
 outputs:
   commentId:
-    description: 'Comment id'
+    description: "Comment's id"
 
 runs:
   using: node20
