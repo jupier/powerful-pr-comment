@@ -29050,11 +29050,10 @@ async function run() {
                     const bodyBeforeSection = comment.data.body.substring(0, comment.data.body.indexOf(commentSectionStart) +
                         commentSectionStart.length);
                     const bodyAfterSection = comment.data.body.substring(comment.data.body.indexOf(commentSectionEnd));
-                    core.info(`Updating the content of the comment with ${bodyBeforeSection}\n${body}${bodyAfterSection}`);
                     return octokit.rest.issues.updateComment({
                         ...context.repo,
                         comment_id: commentId,
-                        body: `${bodyBeforeSection}\n${body}${bodyAfterSection}`
+                        body: `${bodyBeforeSection}\n${body}\n${bodyAfterSection}`
                     });
                 }
                 else {
@@ -29083,7 +29082,7 @@ async function run() {
             }
             else {
                 core.info('Creating new sticky comment');
-                const result = await createComment(`${stickyCommentHeader}${body}`);
+                const result = await createComment(`${stickyCommentHeader}\n${body}`);
                 core.setOutput('commentId', result.data.id);
             }
         }
