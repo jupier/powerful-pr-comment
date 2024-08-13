@@ -94,12 +94,12 @@ export async function run(): Promise<void> {
         core.info(`A sticky comment exists: ${existingStickyComment.body}`)
         await updateComment(
           existingStickyComment.id,
-          `${stickyCommentHeader}${body}`
+          `${stickyCommentHeader}here\\${body}`
         )
         core.setOutput('commentId', existingStickyComment.id)
       } else {
         core.info('Creating new sticky comment')
-        const result = await createComment(`${stickyCommentHeader}\\${body}`)
+        const result = await createComment(`${stickyCommentHeader}${body}`)
         core.setOutput('commentId', result.data.id)
       }
     } else if (commentIdToUpdate.length > 0) {
