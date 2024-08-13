@@ -29053,7 +29053,7 @@ async function run() {
                     return octokit.rest.issues.updateComment({
                         ...context.repo,
                         comment_id: commentId,
-                        body: `${bodyBeforeSection}${body}${bodyAfterSection}`
+                        body: `${bodyBeforeSection}\n${body}${bodyAfterSection}`
                     });
                 }
                 else {

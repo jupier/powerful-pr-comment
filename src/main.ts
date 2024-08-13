@@ -65,7 +65,7 @@ export async function run(): Promise<void> {
           return octokit.rest.issues.updateComment({
             ...context.repo,
             comment_id: commentId,
-            body: `${bodyBeforeSection}${body}${bodyAfterSection}`
+            body: `${bodyBeforeSection}\n${body}${bodyAfterSection}`
           })
         } else {
           throw new Error('Section new found :(')
