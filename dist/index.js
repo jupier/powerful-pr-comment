@@ -29029,6 +29029,7 @@ async function run() {
         }
         const updateComment = async (commentId, commentBody) => {
             if (section.length === 0) {
+                core.info(`Updating the content of the comment with ${commentBody}`);
                 return octokit.rest.issues.updateComment({
                     ...context.repo,
                     comment_id: commentId,
@@ -29049,10 +29050,11 @@ async function run() {
                     const bodyBeforeSection = comment.data.body.substring(0, comment.data.body.indexOf(commentSectionStart) +
                         commentSectionStart.length);
                     const bodyAfterSection = comment.data.body.substring(comment.data.body.indexOf(commentSectionEnd));
+                    core.info(`Updating the content of the comment with ${bodyBeforeSection}\n${body}\n${bodyAfterSection}`);
                     return octokit.rest.issues.updateComment({
                         ...context.repo,
                         comment_id: commentId,
-                        body: `${bodyBeforeSection}${body}${bodyAfterSection}`
+                        body: `${bodyBeforeSection}\n${body}\n${bodyAfterSection}`
                     });
                 }
                 else {
@@ -29076,7 +29078,7 @@ async function run() {
             });
             if (existingStickyComment) {
                 core.info(`A sticky comment exists: ${existingStickyComment.body}`);
-                await updateComment(existingStickyComment.id, `${stickyCommentHeader}${body}`);
+                await updateComment(existingStickyComment.id, `${stickyCommentHeader}here\\${body}`);
                 core.setOutput('commentId', existingStickyComment.id);
             }
             else {
