@@ -36,6 +36,7 @@ export async function run(): Promise<void> {
       commentBody: string
     ): Promise<UpdateCommentResponseType> => {
       if (section.length === 0) {
+        core.info(`Updating the content of the comment with ${commentBody}`)
         return octokit.rest.issues.updateComment({
           ...context.repo,
           comment_id: commentId,
@@ -60,6 +61,9 @@ export async function run(): Promise<void> {
           )
           const bodyAfterSection = comment.data.body.substring(
             comment.data.body.indexOf(commentSectionEnd)
+          )
+          core.info(
+            `Updating the content of the comment with ${bodyBeforeSection}\n${body}\n${bodyAfterSection}`
           )
           return octokit.rest.issues.updateComment({
             ...context.repo,
