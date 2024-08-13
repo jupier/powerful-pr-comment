@@ -114,6 +114,10 @@ jobs:
             <!-- POWERFUL PR SECTION END: firstSection --><!-- POWERFUL PR SECTION START: secondSection -->
             - second section: This content will be updated...
             <!-- POWERFUL PR SECTION END: secondSection -->
+            # Another section
+            !-- POWERFUL PR SECTION START: thirdSection -->
+            This content will be updated...
+            <!-- POWERFUL PR SECTION END: thirdSection -->
 
       - name: Sleep for 5s
         run: sleep 5s
@@ -142,3 +146,11 @@ jobs:
           body: |
             - The content of the second section has been updated
             - **Really nice 🤗**
+
+      - name: Update sticky comment third section
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          section: thirdSection
+          sticky: true
+          body: Done ✅
