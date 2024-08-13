@@ -29050,7 +29050,7 @@ async function run() {
                     const bodyBeforeSection = comment.data.body.substring(0, comment.data.body.indexOf(commentSectionStart) +
                         commentSectionStart.length);
                     const bodyAfterSection = comment.data.body.substring(comment.data.body.indexOf(commentSectionEnd));
-                    core.info(`Updating the content of the comment with ${bodyBeforeSection}\n${body}\n${bodyAfterSection}`);
+                    core.info(`Updating the content of the comment with ${bodyBeforeSection}\n${body}${bodyAfterSection}`);
                     return octokit.rest.issues.updateComment({
                         ...context.repo,
                         comment_id: commentId,

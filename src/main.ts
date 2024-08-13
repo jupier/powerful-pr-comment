@@ -63,7 +63,7 @@ export async function run(): Promise<void> {
             comment.data.body.indexOf(commentSectionEnd)
           )
           core.info(
-            `Updating the content of the comment with ${bodyBeforeSection}\n${body}\n${bodyAfterSection}`
+            `Updating the content of the comment with ${bodyBeforeSection}\n${body}${bodyAfterSection}`
           )
           return octokit.rest.issues.updateComment({
             ...context.repo,
