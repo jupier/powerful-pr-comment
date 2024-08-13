@@ -107,13 +107,12 @@ jobs:
           body: |
             I'm a comment containing multiple sections.
             Each section can be updated separately.
-            # First section
+            # Sections
             <!-- POWERFUL PR SECTION START: firstSection -->
-            This content will be updated...
+            - first section: This content will be updated...
             <!-- POWERFUL PR SECTION END: firstSection -->
-            # Second section
             <!-- POWERFUL PR SECTION START: secondSection -->
-            This content will be updated...
+            - second section: This content will be updated...
             <!-- POWERFUL PR SECTION END: secondSection -->
 
       - name: Sleep for 5s
@@ -127,8 +126,8 @@ jobs:
           section: firstSection
           sticky: true
           body: |
-            The content of the first section has been updated
-            **Well done**
+            - The content of the first section has been updated
+            - **well done**
 
       - name: Sleep for 5s
         run: sleep 5s
@@ -141,5 +140,5 @@ jobs:
           section: secondSection
           sticky: true
           body: |
-            The content of the second section has been updated
-            **Really nice 🤗**
+            - The content of the second section has been updated
+            - **Really nice 🤗**
