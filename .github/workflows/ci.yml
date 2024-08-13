@@ -105,6 +105,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           sticky: true
           body: |
+            # This is a title
             I'm a comment containing multiple sections.
             Each section can be updated separately.
             # Sections
