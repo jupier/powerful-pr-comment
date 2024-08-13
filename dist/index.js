@@ -29078,7 +29078,7 @@ async function run() {
             });
             if (existingStickyComment) {
                 core.info(`A sticky comment exists: ${existingStickyComment.body}`);
-                await updateComment(existingStickyComment.id, `${stickyCommentHeader}here\n${body}`);
+                await updateComment(existingStickyComment.id, `${stickyCommentHeader}\n${body}`);
                 core.setOutput('commentId', existingStickyComment.id);
             }
             else {
