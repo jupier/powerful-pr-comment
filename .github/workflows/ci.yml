@@ -115,7 +115,7 @@ jobs:
             - second section: This content will be updated...
             <!-- POWERFUL PR SECTION END: secondSection -->
             # Another section
-            !-- POWERFUL PR SECTION START: thirdSection -->
+            <!-- POWERFUL PR SECTION START: thirdSection -->
             This content will be updated...
             <!-- POWERFUL PR SECTION END: thirdSection -->
 
