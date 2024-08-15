@@ -105,16 +105,19 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           sticky: true
           body: |
+            # This is a title
             I'm a comment containing multiple sections.
             Each section can be updated separately.
-            # First section
+            # Sections
             <!-- POWERFUL PR SECTION START: firstSection -->
-            This content will be updated...
-            <!-- POWERFUL PR SECTION END: firstSection -->
-            # Second section
-            <!-- POWERFUL PR SECTION START: secondSection -->
-            This content will be updated...
+            - first section: This content will be updated...
+            <!-- POWERFUL PR SECTION END: firstSection --><!-- POWERFUL PR SECTION START: secondSection -->
+            - second section: This content will be updated...
             <!-- POWERFUL PR SECTION END: secondSection -->
+            # Another section
+            <!-- POWERFUL PR SECTION START: thirdSection -->
+            This content will be updated...
+            <!-- POWERFUL PR SECTION END: thirdSection -->
 
       - name: Sleep for 5s
         run: sleep 5s
@@ -127,8 +130,8 @@ jobs:
           section: firstSection
           sticky: true
           body: |
-            The content of the first section has been updated
-            **Well done**
+            - The content of the first section has been updated
+            - **well done**
 
       - name: Sleep for 5s
         run: sleep 5s
@@ -141,5 +144,13 @@ jobs:
           section: secondSection
           sticky: true
           body: |
-            The content of the second section has been updated
-            **Really nice 🤗**
+            - The content of the second section has been updated
+            - **Really nice 🤗**
+
+      - name: Update sticky comment third section
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          section: thirdSection
+          sticky: true
+          body: Done ✅

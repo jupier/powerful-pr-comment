@@ -36,6 +36,7 @@ export async function run(): Promise<void> {
       commentBody: string
     ): Promise<UpdateCommentResponseType> => {
       if (section.length === 0) {
+        core.info(`Updating the content of the comment with ${commentBody}`)
         return octokit.rest.issues.updateComment({
           ...context.repo,
           comment_id: commentId,
@@ -64,7 +65,7 @@ export async function run(): Promise<void> {
           return octokit.rest.issues.updateComment({
             ...context.repo,
             comment_id: commentId,
-            body: `${bodyBeforeSection}${body}${bodyAfterSection}`
+            body: `${bodyBeforeSection}\n${body}${bodyAfterSection}`
           })
         } else {
           throw new Error('Section new found :(')
@@ -94,12 +95,12 @@ export async function run(): Promise<void> {
         core.info(`A sticky comment exists: ${existingStickyComment.body}`)
         await updateComment(
           existingStickyComment.id,
-          `${stickyCommentHeader}${body}`
+          `${stickyCommentHeader}\n${body}`
         )
         core.setOutput('commentId', existingStickyComment.id)
       } else {
         core.info('Creating new sticky comment')
-        const result = await createComment(`${stickyCommentHeader}${body}`)
+        const result = await createComment(`${stickyCommentHeader}\n${body}`)
         core.setOutput('commentId', result.data.id)
       }
     } else if (commentIdToUpdate.length > 0) {
