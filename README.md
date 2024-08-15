@@ -32,7 +32,7 @@ permissions:
 ### Create and update a pr comment
 
 ```yaml
-- uses: jupier/powerful-pr-comment@v0.0.3
+- uses: jupier/powerful-pr-comment@v0.0.5
   id: comment-created
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -41,7 +41,7 @@ permissions:
 
 # ...
 
-- uses: jupier/powerful-pr-comment@v0.0.3
+- uses: jupier/powerful-pr-comment@v0.0.5
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     commentId: ${{steps.test-action.outputs.commentId}}
@@ -53,7 +53,7 @@ permissions:
 ### Create/update a sticky comment
 
 ```yaml
-- uses: jupier/powerful-pr-comment@v0.0.3
+- uses: jupier/powerful-pr-comment@v0.0.5
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     sticky: true
@@ -66,7 +66,7 @@ permissions:
 ### Create and update a comment with sections
 
 ```yaml
-- uses: jupier/powerful-pr-comment@v0.0.3
+- uses: jupier/powerful-pr-comment@v0.0.5
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     sticky: true
@@ -84,7 +84,7 @@ permissions:
 
 # ...
 
-- uses: jupier/powerful-pr-comment@v0.0.3
+- uses: jupier/powerful-pr-comment@v0.0.5
   with:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     section: firstSection
